@@ -13,18 +13,32 @@
 
 #include "DynArray.h"
 #include <iostream>
-/*
- * 
- */
+
+using std::cout;
+
+
 int main(int argc, char** argv) {
 
-    DynArray d;
+    DynArray d(2000);
+    d.at(0) = 2.44;
+    d.at(3) = 2.666;
+    
+    for(int i = 0; i < 1995; ++i)
+        d.pop_back();
+
+    d.erase(2);
+    d.erase(1);
+    d.print();
+    cout << "\n\n";
+    
     for(int i = 0; i < 5; i++)
     d.push_back(i*1.5);
-    for (int i = 0; i < d.size(); ++i)
-        std::cout << d.at(i) << "\n";
-    for (int i = 0; i < d.size(); ++i)
-        std::cout << d[i] << "\n";
+
+    d.print();
+    cout << d[1] << "\n";
+    d[0] = 120.12;
+    cout << d[0] << "\n";
+    
     
     
     return 0;

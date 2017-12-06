@@ -11,19 +11,21 @@
  * Created on December 5, 2017, 8:01 PM
  */
 #include "DynArray.h"
-
+#include <iostream>
+using std::cout;
 
 DynArray::DynArray() : m_size{0}, m_capacity{8}, m_data{new double[8]} {}
 
-DynArray::DynArray(int newCapacity) : m_size{0}, m_capacity{newCapacity}, m_data{new double[newCapacity]} {}
-
-DynArray::~DynArray() 
+DynArray::DynArray(int newCapacity) : m_size{newCapacity}, m_capacity{newCapacity}, m_data{new double[newCapacity]} 
 {
-    delete[] m_data;
-};
+    for (int i = 0; i < m_size; ++i)
+        m_data[i] = 0.0;
+} 
+DynArray::~DynArray() {delete[] m_data;}
 
 void DynArray::resize(int newCapacity)
 {
+    if(newCapacity == m_capacity) return;
     if(newCapacity < m_size)
     {
         double* new_data = new double[newCapacity];
@@ -31,15 +33,21 @@ void DynArray::resize(int newCapacity)
         m_size = newCapacity;
         for(int i = 0; i < newCapacity; ++i)
         {
-         new_data[i] = m_data[i];        
+         new_data[i] = m_data[i];
         }
         delete[] m_data;
         m_data = new_data;
-        delete new_data;
+        new_data = nullptr;
     }
     else 
     {
-     m_capacity = newCapacity;    
+        double* new_data = new double[newCapacity];
+        m_capacity = newCapacity;
+        for(int i = 0; i < m_size; ++i)
+            new_data[i] = m_data[i];
+        delete[] m_data;
+        m_data = new_data;
+        new_data = nullptr;
     }
 }
 
@@ -61,8 +69,8 @@ void DynArray::push_back(double elem)
 
 void DynArray::pop_back() 
 {
-    if(m_size = 0) throw;
-    m_size -= 1;
+    if(m_size == 0) throw;
+    --m_size;
 }
 
 void DynArray::erase(int index)
@@ -72,12 +80,18 @@ void DynArray::erase(int index)
     pop_back();
 }
 
-int DynArray::size() {return m_size;}
-int DynArray::capacity() {return m_capacity;}
+int DynArray::size() const {return m_size;}
+int DynArray::capacity() const {return m_capacity;}
 
 void DynArray::print()
 {
-    
+    for (int i = 0; i < m_size; ++i)
+        cout << at(i) << "\n"; 
 }
 
 
+DynArray::DynArray(const DynArray& other) : m_size{other.m_size}, m_capacity{other.m_capacity}, m_data{new double[other.m_size]}
+{
+    for (int i = 0; i < other.m_size; ++i)
+        m_data[i] = other.m_data[i];
+}
