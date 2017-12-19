@@ -16,30 +16,53 @@
 
 using std::cout;
 
-
-int main(int argc, char** argv) {
-
-    DynArray d(2000);
-    d.at(0) = 2.44;
-    d.at(3) = 2.666;
-    
-    for(int i = 0; i < 1995; ++i)
-        d.pop_back();
-
-    d.erase(2);
-    d.erase(1);
+void f()
+{
+    DynArray d(10);
+    for (int i = 0; i < 10; ++i)
+        d.at(i) = i;
     d.print();
-    cout << "\n\n";
+    cout << "\n";
     
-    for(int i = 0; i < 5; i++)
-    d.push_back(i*1.5);
-
+    
+    d.erase(3);
     d.print();
-    cout << d[1] << "\n";
-    d[0] = 120.12;
-    cout << d[0] << "\n";
+    cout << "\n";
     
+    for(int i = 10; i < 100; ++i)
+        d.push_back(i);
+    d.pop_back();
+    d.print();
+     cout << "\n";
+}
+
+
+void g()
+{
+        DynArray d2(20000);
+    for (int i = 0; i < 20000; ++i)
+        d2.at(i) = i;
+    for(int i = 0; i < 19950; ++i)
+        d2.erase(49);
+    d2.print();
     
+    cout << "\n";
+
+    d2.pop_back();
+    d2.print();
+    cout << "\n";
+    for(int i = 0; i < 500; ++i)
+        d2.push_back(i);
+    
+    d2.print();
+}
+
+int main() {
+
+    f();
+    g();
+    
+
     
     return 0;
 }

@@ -12,16 +12,19 @@
  */
 #include "DynArray.h"
 #include <iostream>
-using std::cout;
+#include <iomanip>
 
-DynArray::DynArray() : m_size{0}, m_capacity{8}, m_data{new double[8]} {}
+using std::cout; using std::endl; using std::right; using std::setw;
+
+DynArray::DynArray() : m_size{0}, m_capacity{8}, m_data{new double[8]} {cout << "\n~Dynarray(): " << this << "\n\n";}
 
 DynArray::DynArray(int newCapacity) : m_size{newCapacity}, m_capacity{newCapacity}, m_data{new double[newCapacity]} 
 {
     for (int i = 0; i < m_size; ++i)
         m_data[i] = 0.0;
+    cout << "\nDynarray(int newCapacity): " << this << "\n\n";
 } 
-DynArray::~DynArray() {delete[] m_data;}
+DynArray::~DynArray() {delete[] m_data; cout << "\n~Dynarray(): " << this << "\n\n";}
 
 void DynArray::resize(int newCapacity)
 {
@@ -69,7 +72,7 @@ void DynArray::push_back(double elem)
 
 void DynArray::pop_back() 
 {
-    if(m_size == 0) throw;
+    if(m_size == 0) return;
     --m_size;
 }
 
@@ -85,13 +88,18 @@ int DynArray::capacity() const {return m_capacity;}
 
 void DynArray::print()
 {
-    for (int i = 0; i < m_size; ++i)
-        cout << at(i) << "\n"; 
+    for (int i = 0; i < m_size; ++i){
+        if (i != 0 && i % 20 == 0) cout << "\n";
+        cout << setw(4) << std::left << at(i);
+    }
+    cout << endl;
 }
 
 
-DynArray::DynArray(const DynArray& other) : m_size{other.m_size}, m_capacity{other.m_capacity}, m_data{new double[other.m_size]}
+/*DynArray::DynArray(const DynArray& other) : m_size{other.m_size}, 
+                                            m_capacity{other.m_capacity}, 
+                                            m_data{new double[other.m_size]}
 {
     for (int i = 0; i < other.m_size; ++i)
         m_data[i] = other.m_data[i];
-}
+}*/
